@@ -1,0 +1,69 @@
+.messages{
+    margin: auto;
+    width: fit-content;
+}
+.container{
+    margin: auto;
+}
+.main{
+    display: flex;
+    justify-content: space-evenly;
+    width: 950px;
+    margin-top: 20px;
+}
+.profilebody{
+    margin-top: 20px;
+}
+.register, .log{
+    min-height: 400px;
+    width: 340px;
+    box-shadow: 0 0 10px rgb(94, 92, 92);
+}
+.register h1{
+    padding: 30px 0px 10px 60px;
+}
+.log h1{
+    padding: 30px 0px 10px 120px;
+}
+.btn{
+    margin: auto;
+}
+.header{
+    margin: 20px;
+}
+.line{
+    height: 3px;
+    background-color: rgb(56, 52, 52);
+    border-radius: 40%;
+    margin: auto;
+}
+.content{
+    display: flex;
+    justify-content: space-between;
+}
+.addform{
+    width: 45%;
+    min-height: 500px;
+}
+.addform p{
+    margin-left: 30px;
+}
+.books{
+    width: 50%;
+    min-height: 500px;
+}
+.books ul{
+    margin: 20px;
+}
+.books ul li{
+    list-style-type: none;
+}
+#like_names{
+    list-style-type: disc;
+}
+.likes ul li{
+    list-style-type: none;
+}
+.underlined{
+    text-decoration: underline;
+}

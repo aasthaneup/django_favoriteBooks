@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favourite Books</title>
+    {% load static %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container profilebody">
+        <div class="heading">
+            <a class = "float-right mt-2 ml-3 btn btn-secondary" href="/logout">Log out</a>
+            <a class = "float-right mt-2 btn btn-warning" href="/books">Go to Main Page</a>
+            <h1>Welcome <span class="text-info">{{logged_user.first_name}}</span>!</h1>
+            <div class="line"></div>
+        </div>
+        <div class="likes">
+            <h3 class="text-info ml-4 mb-3 mt-4">All Your Favorite Books</h3>
+            {% for book in all_fav_books %}
+            <ul class="mb-4">
+                <li><a class = "text-info underlined" href="/books/{{book.id}}">{{book.title}}</a></li>
+                <li>Added by: {{ book.uploaded_by.first_name }} {{ book.uploaded_by.last_name }}</li>
+                <li><a href="/remove_from_profile/{{book.id}}"><em>(Remove from your Favorite)</em>
+                </a></li>
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+</body>

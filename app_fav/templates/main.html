@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favourite Books</title>
+    {% load static %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    {% if messages %}
+        <ul class="messages">    
+            {% for message in messages %}    
+                <li {% if message.tags %} class=" text-danger {{ message.tags }}"{% endif %}>{{ message }}</li>    
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="container">
+        <div class="header">
+            <a class = "float-right mt-2 ml-3 btn btn-secondary" href="/logout">Log out</a>
+            <a class = "float-right mt-2 btn btn-success" href="/profile/{{logged_user.id}}">Go to Profile</a>
+            <h1>Welcome <span class="text-info">{{logged_user.first_name}}</span>!</h1>
+            <div class="line"></div>
+        </div>
+        <div class="content">
+            <div class="addform">
+                <h3 class="text-info ml-2 mb-3">Add a Favorite book</h3>
+                <form action="/upload/{{logged_user.id}}" method = "POST">
+                {% csrf_token %}
+                    <div class="col col-sm-12">
+                        <div class="form-group row">
+                            <input type="hidden" name = "do_what" value="login">
+                            <label for="title" class="col-sm-5 col-form-label">Title</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name = "title" id="title">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-5 col-form-label">Description</label>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" rows = '3' name = "desc" id="description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <input class = "btn btn-info float-center mt-2" type="submit" value="Add!">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="books">
+                <h3 class="text-info ml-4 mb-3">All Books</h3>
+                {% for book in all_books %}
+                <ul>
+                    <li><a class = "text-info" href="/books/{{book.id}}">{{book.title}}</a></li>
+                    <li>(added by {{ book.uploaded_by.first_name }} {{ book.uploaded_by.last_name }})</li>
+                    {% if logged_user not in book.users_who_like.all %}
+                        <li><a href="/add_to_fav/{{book.id}}">Add to Favourite</a></li>
+                    {% else %}
+                        <li><em>this is one of your favorites</em></li>
+                    {% endif %}
+                </ul>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>

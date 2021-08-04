@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favourite Books</title>
+    {% load static %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    {% if messages %}
+        <ul class="messages">    
+            {% for message in messages %}    
+                <li {% if message.tags %} class=" text-danger {{ message.tags }}"{% endif %}>{{ message }}</li>    
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="container">
+        <div class="header">
+            <a class = "float-right mt-2 ml-3 btn btn-secondary" href="/logout">Log out</a>
+            <a class = "float-right mt-2 ml-3 btn btn-warning" href="/books">Go to Main Page</a>
+            <a class = "float-right mt-2 btn btn-success" href="/profile/{{logged_user.id}}">Go to Profile</a>
+            <h1>Welcome <span class="text-info">{{logged_user.first_name}}</span>!</h1>
+            <div class="line"></div>
+        </div>
+        <div class="content">
+            <div class="addform">
+                <h3 class="ml-4 mb-3 text-danger font-weight-bold">{{ this_book.title }}</h3>
+                <p>Added by: <span class="text-danger">{{this_book.uploaded_by.first_name}} {{this_book.uploaded_by.last_name}}</span></p>
+                <p>Added on: <span class="text-danger">{{this_book.created_at}}</span></p>
+                <p>Last updated on: <span class="text-danger">{{this_book.updated_at}}</span></p>
+
+                {% if this_book.uploaded_by.id == logged_user.id %}
+                    <form action="/update/{{this_book.id}}" method = "POST">
+                    {% csrf_token %}
+                        <div class="form-group row">
+                            <input type="hidden" name="title" value = "{{ this_book.title }}">
+                            <label for="description" class="col-sm-3 col-form-label">Description</label>
+                            <div class="col-sm-7">
+                                <textarea class="form-control" rows = '3' name = "desc" id="description">{{this_book.desc}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <input class = "btn btn-info float-center " type="submit" value="Update">
+                        </div>
+                    </form>
+                    <a href = "/delete/{{this_book.id}}" class = "btn btn-danger float-center">Delete</a>
+                {% else %}
+                    <p>Description: {{this_book.desc}}</p>
+                {% endif %}
+            </div>
+            <div class="books">
+                <h3 class="text-info ml-4 mb-3">Users Who Like This Book</h3>
+                
+                {% for each_user in this_book.users_who_like.all %}
+                    <ul>
+                        <li id = "like_names">{{ each_user.first_name }} {{ each_user.last_name }}
+                            {% if each_user.id == logged_user.id %}
+                                {% if this_book in each_user.liked_books.all %}
+                                | <a href="/remove_from_fav/{{this_book.id}}">Un-Favorite
+                                </a>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    </ul>
+                    {% if this_book not in logged_user.liked_books.all %}
+                        <a href="/add_to_fav/{{this_book.id}}">Add to Favorite</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>

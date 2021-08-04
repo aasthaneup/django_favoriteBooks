@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favourite Books- Login/Register</title>
+    {% load static %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    {% if messages %}
+        <ul class="messages">    
+            {% for message in messages %}    
+                <li {% if message.tags %} class=" text-danger {{ message.tags }}"{% endif %}>{{ message }}</li>    
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="container main">
+        <div class="register">
+            <h1 class="text-info ">Registration</h1>
+            <form action="/register" method = "POST">
+            {% csrf_token %}
+                <div class="col col-sm-12">
+                    <div class="form-group row">
+                        <input type="hidden" name = "do_what" value="register">
+                        <label for="first_name" class="col-sm-5 col-form-label">First Name</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="first_name" name = "first_name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="last_name" class="col-sm-5 col-form-label">Last Name</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" name = "last_name" id="last_name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-5 col-form-label">Email</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" name = "email" id="email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="password" class="col-sm-5 col-form-label">Password</label>
+                        <div class="col-sm-7">
+                            <input type="password" class="form-control" name = "password" id="password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="password" class="col-sm-5 col-form-label">Confirm Pw</label>
+                        <div class="col-sm-7">
+                            <input type="password" class="form-control" name = "conf_pass" id="conf_password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <input class = "btn btn-info float-center mt-2" type="submit" value="Register!">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="log">
+            <h1 class="text-info">Login</h1>
+            <form action="/login" method = "POST">
+            {% csrf_token %}
+                <div class="col col-sm-12">
+                    <div class="form-group row">
+                        <input type="hidden" name = "do_what" value="login">
+                        <label for="email" class="col-sm-5 col-form-label">Email</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" name = "login_email" id="email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="password" class="col-sm-5 col-form-label">Password</label>
+                        <div class="col-sm-7">
+                            <input type="password" class="form-control" name = "login_pass" id="password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <input class = "btn btn-info float-center mt-2" type="submit" value="Login!">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
